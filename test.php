@@ -1,17 +1,5 @@
 <?php
 
-/**
- * Add 0, false, 'false'
- * Create a learner
- * Create a course
- * Read course information
- * Read learner information
- * Update course enrollments
- * Update learner information
- * Delete a course
- * Delete a learner
- */
-
 $schooldata = json_decode(file_get_contents('data.json'), true);
 
 $whoiswhere = enrolledIntoclass($schooldata);
@@ -52,4 +40,28 @@ function enrolledIntoclass($schooldata) {
         }
     }
     return $enrolments;
+}
+
+function userCRUD($action = 'R') {
+    if ($action == 'C') {
+        //return createLearner();
+    } else if ($action == 'R') {
+        //return readLearner();
+    } else if ($action == 'U') {
+        //return updateLearner();
+    } else if ($action == 'D') {
+        //return deleteLearner();
+    }
+}
+
+function courseCRUD($action = 'R') {
+    if ($action == 'C') {
+        //return createCourse();
+    } else if ($action == 'R') {
+        //return readCourse();
+    } else if ($action == 'U') {
+        //return updateCourse();
+    } else if ($action == 'D') {
+        //return deleteCourse();
+    }
 }

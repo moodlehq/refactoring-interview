@@ -3,19 +3,29 @@
 A small widget provided to potential candidates to refactor and improve.
 
 ```composer install```
-```./vendor/bin/phpunit tests/ for test. ```
+```./vendor/bin/phpunit tests/* for tests. ```
 
 ---
 
 ### explanation of the current state
-It is legacy code that was inherited that caught the eye of an interested manager that wants it updated and ready for production.
-Given the manager wants this asap any changes shouldn't take more than half a day to complete.
+This is a legacy widget that you have inherited which that caught the eye of an interested manager.
 
-The structure consists of ...
+The interested manager wants it updated and ready for production asap so any changes shouldn't take more than half a day to complete.
+
+The structure consists of the following files:
+```
+test.php - The entry point into the program that can be run from the command line
+data.json - The provided json that the widget gets from the school as a data source
+tests/
+      quick_test.php - The initial developer wanted to state that their project had unit tests however, unfortunately they are not meaningful 
+
+```
 
 ---
 # Main task:
 ## Example `data.json` file
+
+**TODO**: Update this to match the data.json
 
 ```
 {"user":"wow","enrolments":"yes"}
@@ -25,6 +35,8 @@ The structure consists of ...
 ## Running the code
 
 Assuming PHP code is in `test.php`, you could run it by this command:
+
+**TODO**: Improve the output to CLI
 ```
 > php test.php 
 stdClass Object
@@ -61,10 +73,11 @@ stdClass Object
 # Notes about this code
 
 1. Backwards compatibility is not an issue so functions can be removed and updated as desired
+1. A small unit test has been provided to help you get started
 
 # Requirements for your code
 
 1. Improve the code hygiene of the widget and provide your insight on any areas of concern
-1. Refactor the test.php file to have clearer representations of the functionality. This can take the shape of implementing a design pattern in new files
-1. Implement a function that can create a new course
-1. Implement a function can enroll a student to a given course
+1. Refactor the test.php file to have clearer representations of the functionality. This can take the shape of implementing a design pattern
+   1. Re-implement the course and user CRUD functions to be single purpose discreet functions
+1. Provide unit tests for the new functions
