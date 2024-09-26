@@ -2,6 +2,7 @@
   "users": [
     {
       "name": "Abed Nadir",
+      "email": "abed@greendale.edu",
       "classes": [
         {
           "id": 1

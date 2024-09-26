@@ -8,7 +8,7 @@ A small widget provided to potential candidates to refactor and improve.
 ---
 
 ### explanation of the current state
-This is a legacy widget that you have inherited which that caught the eye of an interested manager.
+This is a legacy widget that you have inherited which caught the eye of an interested manager.
 
 The interested manager wants it updated and ready for production asap so any changes shouldn't take more than half a day to complete.
 
@@ -71,13 +71,13 @@ stdClass Object
 ```
 
 # Notes about this code
-
+1. PHP 8.2 is the target version, and you can use any features from it
+1. Run time changes do not need to be saved or written back to the data source 
 1. Backwards compatibility is not an issue so functions can be removed and updated as desired
-1. A small unit test has been provided to help you get started
 
 # Requirements for your code
-
 1. Improve the code hygiene of the widget and provide your insight on any areas of concern
 1. Refactor the test.php file to have clearer representations of the functionality. This can take the shape of implementing a design pattern
    1. Re-implement the course and user CRUD functions to be single purpose discreet functions
 1. Provide unit tests for the new functions
+1. Changes should be commited and a pull request should be made to this repository 
