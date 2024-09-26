@@ -2,7 +2,14 @@
 
 /**
  * Add 0, false, 'false'
- * mock some weird mapping function.
+ * Create a learner
+ * Create a course
+ * Read course information
+ * Read learner information
+ * Update course enrollments
+ * Update learner information
+ * Delete a course
+ * Delete a learner
  */
 
 $schooldata = json_decode(file_get_contents('data.json'), true);

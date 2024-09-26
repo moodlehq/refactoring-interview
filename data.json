@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "name": "Abed",
+      "name": "Abed Nadir",
       "classes": [
         {
           "id": 1
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "name": "Lex",
+      "name": "Lex Williams",
       "classes": [
         {
           "id": 1
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "name": "Jessie",
+      "name": "Jessie Pinkman",
       "classes": [
         {
           "id": 2
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "name": "Walter",
+      "name": "Walter White",
       "role": "Teacher",
       "classes": [
         {
@@ -43,11 +43,11 @@
   "classes": [
     {
       "id": 1,
-      "name": "Biology"
+      "name": "Biology 101"
     },
     {
       "id": 2,
-      "name": "Chemistry"
+      "name": "Chemistry 101"
     }
   ]
 }
