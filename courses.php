@@ -22,6 +22,11 @@ $courses = getSchoolClassInformation(null);
 $courses = readcourseinfo($courses);
 
 print_r($courses);
+
+function createCourse() {
+    //return createCourse();
+}
+
 function readcourseinfo($courses) {
     if (array_key_exists('isclassrominfo', $courses) and ($courses['isclassrominfo'] == 'true' || $courses['isclassrominfo'] == true || $courses['isclassrominfo'] == 1)) {
         unset($courses['isclassrominfo']);
@@ -30,14 +35,30 @@ function readcourseinfo($courses) {
     return $courses;
 }
 
+function updateCourse() {
+    //return updateCourse();
+}
+
+function deleteCourse() {
+    //return deleteCourse();
+}
+
+function enrollmentManager($enroll = true) {
+    if ($enroll) {
+        // return enrollUser();
+    } else {
+        // return unenrollUser();
+    }
+}
+
 function courseCRUD($action = 'R') {
     if ($action == 'C') {
-        //return createCourse();
+        return createCourse();
     } else if ($action == 'R') {
-        //return readCourse();
+        return readcourseinfo(getSchoolClassInformation(null));
     } else if ($action == 'U') {
-        //return updateCourse();
+        return updateCourse();
     } else if ($action == 'D') {
-        //return deleteCourse();
+        return deleteCourse();
     }
 }
