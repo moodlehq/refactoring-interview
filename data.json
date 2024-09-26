@@ -1,54 +1,12 @@
 {
   "users": [
-    {
-      "name": "Abed Nadir",
-      "email": "abed@greendale.edu",
-      "classes": [
-        {
-          "id": 1
-        },
-        {
-          "id": 2
-        }
-      ]
-    },
-    {
-      "name": "Lex Williams",
-      "classes": [
-        {
-          "id": 1
-        }
-      ]
-    },
-    {
-      "name": "Jessie Pinkman",
-      "classes": [
-        {
-          "id": 2
-        }
-      ]
-    },
-    {
-      "name": "Walter White",
-      "role": "Teacher",
-      "classes": [
-        {
-          "id": 1
-        },
-        {
-          "id": 2
-        }
-      ]
-    }
+    {"name": "Abed Nadir", "email": "abed@greendale.edu", "classes": [{"id": 1}, {"id": 2}]},
+    {"name": "Lex Williams", "classes": [{"id": 1}]},
+    {"name": "Jessie Pinkman", "classes": [{"id": 2}]},
+    {"name": "Walter White", "role": "Teacher", "classes": [{"id": 1}, {"id": 2}]}
   ],
   "classes": [
-    {
-      "id": 1,
-      "name": "Biology 101"
-    },
-    {
-      "id": 2,
-      "name": "Chemistry 101"
-    }
+    {"id": 1, "name": "Biology 101"},
+    {"id": 2, "name": "Chemistry 101"}
   ]
 }

@@ -14,10 +14,13 @@ The interested manager wants it updated and ready for production asap so any cha
 
 The structure consists of the following files:
 ```
-test.php - The entry point into the program that can be run from the command line
-data.json - The provided json that the widget gets from the school as a data source
-tests/
-      quick_test.php - The initial developer wanted to state that their project had unit tests however, unfortunately they are not meaningful 
+lib.php         - The functions used by the various entry points from the command line
+data.json       - The provided json that the widget gets from the school as a data source
+courses.php     - The entry point that allows the management of courses
+users.php       - Manage and update users
+school.php      - Display the entire school structure
+tests/          - Directory containing the tests for the widget
+    quick_test.php    - The initial developer wanted to state that their project had unit tests however, unfortunately they are not meaningful 
 
 ```
 
@@ -25,20 +28,30 @@ tests/
 # Main task:
 ## Example `data.json` file
 
-**TODO**: Update this to match the data.json
+Users and courses are stored in a JSON file. The JSON file has the following structure:
 
 ```
-{"user":"wow","enrolments":"yes"}
+{
+  "users": [
+    {"name": "Abed Nadir", "email": "abed@greendale.edu", "classes": [{"id": 1}, {"id": 2}]}
+  ],
+  "courses": [
+    {"id": 1, "name": "Biology 101"}
+  ]
+}
 
 ```
+
+Enrolments are currently stored in the `users` array item object. If you were to provide the school with the rational to normalise their data, they might be willing to update their processes.
+
+The `courses`array currently contains each course with their associated ID and name. The school has indicated that they would like add class locations and times in the future.
 
 ## Running the code
 
-Assuming PHP code is in `test.php`, you could run it by this command:
+Assuming PHP code is in `school.php`, you could run it by this command:
 
-**TODO**: Improve the output to CLI
 ```
-> php test.php 
+> php school.php 
 stdClass Object
 (
     [isaclassrepresentation] => yes
@@ -54,13 +67,47 @@ stdClass Object
 
         )
 
-    [2] => stdClass Object
+)
+
+```
+
+Assuming PHP code is in `courses.php`, you could run it by this command:
+
+```
+> php school.php 
+stdClass Object
+(
+    [isaclassrepresentation] => yes
+    [1] => stdClass Object
         (
-            [name] => Chemistry
+            [name] => Biology
             [students] => Array
                 (
                     [0] => Abed Nadir
-                    [1] => Jessie Pinkman
+                    [1] => Lex Williams
+                    [2] => Walter White
+                )
+
+        )
+
+)
+
+```
+
+Assuming PHP code is in `users.php`, you could run it by this command:
+
+```
+> php school.php 
+stdClass Object
+(
+    [isaclassrepresentation] => yes
+    [1] => stdClass Object
+        (
+            [name] => Biology
+            [students] => Array
+                (
+                    [0] => Abed Nadir
+                    [1] => Lex Williams
                     [2] => Walter White
                 )
 

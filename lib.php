@@ -1,29 +1,27 @@
 <?php
 
-$schooldata = json_decode(file_get_contents('data.json'), true);
+function returnData() {
+    return json_decode(file_get_contents('data.json'), true);
+}
 
-$whoiswhere = enrolledIntoclass($schooldata);
+function getlearnersintheSchool($switch = false) {
 
-print_r($whoiswhere);
-
-function getlearnersintheSchool($schooldata, $switch = false) {
-
-
+    $schooldata = returnData();
     foreach ($schooldata as $classes) {
         if ($classes[0]['classes'] and $switch == false) {return array('isAUserTHING' => true, 'users' => $classes);} else {
             return ['isclassrominfo' => 'true', 'classes' => $schooldata['classes']];
         }}return null;
 }
 
-function getSchoolClassInformation($schooldata) {
-    return getlearnersintheSchool($schooldata, true);
+function getSchoolClassInformation() {
+    return getlearnersintheSchool(true);
 }
 
-function enrolledIntoclass($schooldata) {
+function enrolledIntoclass() {
     $enrolments = new stdClass();
     $enrolments->isaclassrepresentation = 'yes';
-    $leaners = getlearnersintheSchool($schooldata);
-    $class = getSchoolClassInformation($schooldata);
+    $leaners = getlearnersintheSchool();
+    $class = getSchoolClassInformation();
     foreach ($class['classes'] as $key => $value) {
         $courseid = $value['id'];
         $coursename = $value['name'];
