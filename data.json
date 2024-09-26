@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "name": "Abed",
+      "classes": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "name": "Lex",
+      "classes": [
+        {
+          "id": 1
+        }
+      ]
+    },
+    {
+      "name": "Jessie",
+      "classes": [
+        {
+          "id": 2
+        }
+      ]
+    },
+    {
+      "name": "Walter",
+      "role": "Teacher",
+      "classes": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    }
+  ],
+  "classes": [
+    {
+      "id": 1,
+      "name": "Biology"
+    },
+    {
+      "id": 2,
+      "name": "Chemistry"
+    }
+  ]
+}
