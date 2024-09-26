@@ -17,3 +17,15 @@ Options:
 
 Example:
 \$ php courses.php -c 'Mathematics'";
+
+function courseCRUD($action = 'R') {
+    if ($action == 'C') {
+        //return createCourse();
+    } else if ($action == 'R') {
+        //return readCourse();
+    } else if ($action == 'U') {
+        //return updateCourse();
+    } else if ($action == 'D') {
+        //return deleteCourse();
+    }
+}

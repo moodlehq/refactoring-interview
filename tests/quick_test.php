@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-include 'test.php';
+include 'lib.php';
 
 class quick_test extends TestCase {
 
@@ -49,7 +49,7 @@ class quick_test extends TestCase {
     public function testMainFunctions() {
         $data = $this->getData();
         // Just returns all users.
-        $users = getLearnersintheSchool($data);
+        $users = getLearnersintheSchool($data, false);
         // And this gets classes.
         $classes = getSchoolClassInformation($data);
         // Combination of users in classes.

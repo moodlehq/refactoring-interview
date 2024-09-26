@@ -4,24 +4,39 @@ function returnData() {
     return json_decode(file_get_contents('data.json'), true);
 }
 
-function getlearnersintheSchool($switch = false) {
+function getlearnersintheSchool($dataoverride = null, $switch) {
 
-    $schooldata = returnData();
+    if (!$dataoverride) {
+        $schooldata = returnData();
+    } else {
+        $schooldata = $dataoverride;
+    }
+
     foreach ($schooldata as $classes) {
         if ($classes[0]['classes'] and $switch == false) {return array('isAUserTHING' => true, 'users' => $classes);} else {
             return ['isclassrominfo' => 'true', 'classes' => $schooldata['classes']];
         }}return null;
 }
 
-function getSchoolClassInformation() {
-    return getlearnersintheSchool(true);
+function getSchoolClassInformation($dataoverride = null) {
+    if (!$dataoverride) {
+        $schooldata = returnData();
+    } else {
+        $schooldata = $dataoverride;
+    }
+    return getlearnersintheSchool($schooldata,true);
 }
 
-function enrolledIntoclass() {
+function enrolledIntoclass($dataoverride = null) {
+    if (!$dataoverride) {
+        $schooldata = returnData();
+    } else {
+        $schooldata = $dataoverride;
+    }
     $enrolments = new stdClass();
     $enrolments->isaclassrepresentation = 'yes';
-    $leaners = getlearnersintheSchool();
-    $class = getSchoolClassInformation();
+    $leaners = getlearnersintheSchool($schooldata, false);
+    $class = getSchoolClassInformation($schooldata);
     foreach ($class['classes'] as $key => $value) {
         $courseid = $value['id'];
         $coursename = $value['name'];
@@ -40,26 +55,6 @@ function enrolledIntoclass() {
     return $enrolments;
 }
 
-function userCRUD($action = 'R') {
-    if ($action == 'C') {
-        //return createLearner();
-    } else if ($action == 'R') {
-        //return readLearner();
-    } else if ($action == 'U') {
-        //return updateLearner();
-    } else if ($action == 'D') {
-        //return deleteLearner();
-    }
-}
 
-function courseCRUD($action = 'R') {
-    if ($action == 'C') {
-        //return createCourse();
-    } else if ($action == 'R') {
-        //return readCourse();
-    } else if ($action == 'U') {
-        //return updateCourse();
-    } else if ($action == 'D') {
-        //return deleteCourse();
-    }
-}
+
+
