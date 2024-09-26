@@ -1,6 +1,6 @@
 <?php
 
-require_once 'test.php';
+require_once 'lib.php';
 
 $help = "Allows you to print out the entire school dataset currently in memory
 
@@ -11,3 +11,4 @@ Options:
 Example:
 \$ php school.php -a";
 
+print_r(enrolledIntoclass());

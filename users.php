@@ -1,6 +1,6 @@
 <?php
 
-require_once 'test.php';
+require_once 'lib.php';
 
 $help = "Allows you to manage users within the school.
 
@@ -15,5 +15,3 @@ Options:
 
 Example:
 \$ php users.php -u 1 -n 'John Doe'";
-
-print_r(enrolledIntoclass());

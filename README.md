@@ -52,22 +52,6 @@ Assuming PHP code is in `school.php`, you could run it by this command:
 
 ```
 > php school.php 
-stdClass Object
-(
-    [isaclassrepresentation] => yes
-    [1] => stdClass Object
-        (
-            [name] => Biology
-            [students] => Array
-                (
-                    [0] => Abed Nadir
-                    [1] => Lex Williams
-                    [2] => Walter White
-                )
-
-        )
-
-)
 
 ```
 
@@ -75,22 +59,6 @@ Assuming PHP code is in `courses.php`, you could run it by this command:
 
 ```
 > php school.php 
-stdClass Object
-(
-    [isaclassrepresentation] => yes
-    [1] => stdClass Object
-        (
-            [name] => Biology
-            [students] => Array
-                (
-                    [0] => Abed Nadir
-                    [1] => Lex Williams
-                    [2] => Walter White
-                )
-
-        )
-
-)
 
 ```
 
@@ -98,23 +66,7 @@ Assuming PHP code is in `users.php`, you could run it by this command:
 
 ```
 > php school.php 
-stdClass Object
-(
-    [isaclassrepresentation] => yes
-    [1] => stdClass Object
-        (
-            [name] => Biology
-            [students] => Array
-                (
-                    [0] => Abed Nadir
-                    [1] => Lex Williams
-                    [2] => Walter White
-                )
-
-        )
-
-)
-
+s
 ```
 
 # Notes about this code

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'test.php';
+require_once 'lib.php';
 
 $help = "Allows you to manage courses within the school.
 
