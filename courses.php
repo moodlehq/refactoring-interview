@@ -18,6 +18,18 @@ Options:
 Example:
 \$ php courses.php -c 'Mathematics'";
 
+$courses = getSchoolClassInformation(null);
+$courses = readcourseinfo($courses);
+
+print_r($courses);
+function readcourseinfo($courses) {
+    if (array_key_exists('isclassrominfo', $courses) and ($courses['isclassrominfo'] == 'true' || $courses['isclassrominfo'] == true || $courses['isclassrominfo'] == 1)) {
+        unset($courses['isclassrominfo']);
+        $courses = $courses['classes'];
+    }
+    return $courses;
+}
+
 function courseCRUD($action = 'R') {
     if ($action == 'C') {
         //return createCourse();

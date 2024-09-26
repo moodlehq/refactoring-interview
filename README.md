@@ -3,11 +3,12 @@
 A small widget provided to potential candidates to refactor and improve.
 
 ```composer install```
+
 ```./vendor/bin/phpunit tests/* for tests. ```
 
 ---
 
-### explanation of the current state
+### Explanation of the current state
 This is a legacy widget that you have inherited which caught the eye of an interested manager.
 
 The interested manager wants it updated and ready for production asap so any changes shouldn't take more than half a day to complete.
@@ -52,21 +53,88 @@ Assuming PHP code is in `school.php`, you could run it by this command:
 
 ```
 > php school.php 
+stdClass Object
+(
+    [1] => stdClass Object
+        (
+            [name] => Biology 101
+            [students] => Array
+                (
+                    [0] => Abed Nadir: abed@greendale.edu
+                    [1] => Lex Williams:
+                )
+
+            [teachers] => Walter White:
+        )
+
+    [2] => stdClass Object
+        (
+            [name] => Chemistry 101
+            [students] => Array
+                (
+                    [0] => Abed Nadir: abed@greendale.edu
+                    [1] => Jessie Pinkman:
+                )
+
+            [teachers] => Walter White:
+        )
+
+)
 
 ```
 
 Assuming PHP code is in `courses.php`, you could run it by this command:
 
 ```
-> php school.php 
+> php courses.php -a
+Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [name] => Biology 101
+            [location] => Greendale Community College
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [name] => Chemistry 101
+        )
+
+)
 
 ```
 
 Assuming PHP code is in `users.php`, you could run it by this command:
 
 ```
-> php school.php 
-s
+> php users.php -a
+Array
+(
+    [0] => Array
+        (
+            [name] => Abed Nadir
+            [email] => abed@greendale.edu
+            [courseinfo] => Array
+                (
+                    [0] => Biology 101: Greendale Community College
+                    [1] => Chemistry 101:
+                )
+
+        )
+    [1] => Array
+        (
+            [name] => Walter White
+            [role] => Teacher
+            [courseinfo] => Array
+                (
+                    [0] => Biology 101: Greendale Community College
+                    [1] => Chemistry 101:
+                )
+
+        )
+)
 ```
 
 # Notes about this code

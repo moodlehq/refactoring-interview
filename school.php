@@ -11,4 +11,4 @@ Options:
 Example:
 \$ php school.php -a";
 
-print_r(enrolledIntoclass());
+print_r(printSchoolData());

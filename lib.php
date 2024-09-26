@@ -47,7 +47,11 @@ function enrolledIntoclass($dataoverride = null) {
         foreach ($leaners['users'] as $key => $value) {
             foreach ($value['classes'] as $key => $class) {
                 if ($class['id'] == $courseid) {
-                    $enrolments->$courseid->students[] = $value['name'];
+                    if (array_key_exists('role', $value) and $value['role'] == 'Teacher') {
+                        $enrolments->$courseid->teachers = $value['name'] . ': ' . $value['email'];
+                    } else {
+                        $enrolments->$courseid->students[] = $value['name'] . ': ' . $value['email'];
+                    }
                 }
             }
         }
@@ -55,6 +59,12 @@ function enrolledIntoclass($dataoverride = null) {
     return $enrolments;
 }
 
+function printSchoolData() {
+    $info = enrolledIntoclass();
 
+    if (property_exists($info, 'isaclassrepresentation')) {
+        unset($info->isaclassrepresentation);
+    }
 
-
+    return $info;
+}

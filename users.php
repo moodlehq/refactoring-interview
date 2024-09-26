@@ -16,6 +16,36 @@ Options:
 Example:
 \$ php users.php -u 1 -n 'John Doe'";
 
+
+$allusers = getlearnersintheSchool(null, false);
+
+if (array_key_exists('isAUserTHING', $allusers)) {
+    $allusers = $allusers['users'];
+}
+
+$users = readUsers($allusers);
+
+print_r($users);
+function readUsers($allusers) {
+    $classinfo = getSchoolClassInformation(null);
+    $newuserinfo = [];
+    foreach ($allusers as $key => $user) {
+        $user['courseinfo'] = [];
+        foreach ($user['classes'] as $key => $class) {
+            foreach ($classinfo['classes'] as $key => $value) {
+                if ($value['id'] == $class['id']) {
+                    array_push($user['courseinfo'], $value['name']. ': '. $value['location']);
+                }
+            }
+        }
+        unset($user['classes']);
+        array_push($newuserinfo, $user);
+    }
+    return $newuserinfo;
+}
+
+//print_r($allusers);
+
 function userCRUD($action = 'R') {
     if ($action == 'C') {
         //return createLearner();
