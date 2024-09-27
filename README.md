@@ -144,7 +144,7 @@ Array
 
 # Requirements for your code
 1. Improve the code hygiene of the widget and provide your insight on any areas of concern
-1. Refactor the test.php file to have clearer representations of the functionality. This can take the shape of implementing a design pattern
+1. Refactor the lib.php file to have clearer representations of the functionality. This can take the shape of implementing a design pattern
    1. Re-implement the course and user CRUD functions to be single purpose discreet functions
 1. Provide unit tests for the new functions
 1. Changes should be commited and a pull request should be made to this repository 
