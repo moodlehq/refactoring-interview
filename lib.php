@@ -47,10 +47,12 @@ function enrolledIntoclass($dataoverride = null) {
         foreach ($leaners['users'] as $key => $value) {
             foreach ($value['classes'] as $key => $class) {
                 if ($class['id'] == $courseid) {
-                    if (array_key_exists('role', $value) and $value['role'] == 'Teacher') {
+                    if (array_key_exists('role', $value) and $value['role'] == 'Teacher' and isset($value['email'])) {
                         $enrolments->$courseid->teachers = $value['name'] . ': ' . $value['email'];
                     } else {
-                        $enrolments->$courseid->students[] = $value['name'] . ': ' . $value['email'];
+                        if (isset($value['email'])) {
+                            $enrolments->$courseid->students[] = $value['name'] . ': ' . $value['email'];
+                        }
                     }
                 }
             }

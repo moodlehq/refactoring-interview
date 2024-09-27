@@ -104,7 +104,7 @@ function userCRUD($action = 'R') {
             $user['courseinfo'] = [];
             foreach ($user['classes'] as $key => $class) {
                 foreach ($classinfo['classes'] as $key => $value) {
-                    if ($value['id'] == $class['id']) {
+                    if ($value['id'] == $class['id'] and isset($value['location'])) {
                         array_push($user['courseinfo'], $value['name']. ': '. $value['location']);
                     }
                 }
