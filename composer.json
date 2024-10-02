@@ -1,5 +1,22 @@
 {
     "require-dev": {
-        "phpunit/phpunit": "^11.3"
+        "phpunit/phpunit": "^11.3",
+        "phpspec/prophecy-phpunit": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Config\\": "config/",
+            "Builder\\": "Builders/",
+            "Model\\": "Models/",
+            "Repository\\": "Repositories/",
+            "Service\\": "Services/",
+            "Test\\Builder\\": "tests/Builders/",
+            "Test\\Model\\": "tests/Models/",
+            "Test\\Repository\\": "tests/Repositories/",
+            "Test\\Service\\": "tests/Services/"
+        }
+    },
+    "require": {
+        "ramsey/uuid": "^4.7"
     }
 }

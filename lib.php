@@ -1,72 +1,31 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
-function returnData() {
-    return json_decode(file_get_contents('data.json'), true);
+use Builder\SchoolBuilder;
+use Repository\LocalFileCourseRepository;
+use Repository\LocalFileEnrolmentRepository;
+use Repository\LocalFileSchoolRepository;
+use Repository\LocalFileUserRepository;
+use Service\CourseService;
+use Service\EnrolmentService;
+use Service\SchoolService;
+use Service\UserService;
+
+function getSchoolService(): SchoolService
+{
+    return new SchoolService(new LocalFileSchoolRepository(), new SchoolBuilder());
+}
+function getCourseService(): CourseService
+{
+    return new CourseService(new LocalFileCourseRepository());
 }
 
-function getlearnersintheSchool($dataoverride = null, $switch) {
-
-    if (!$dataoverride) {
-        $schooldata = returnData();
-    } else {
-        $schooldata = $dataoverride;
-    }
-
-    foreach ($schooldata as $classes) {
-        if ($classes[0]['classes'] and $switch == false) {return array('isAUserTHING' => true, 'users' => $classes);} else {
-            return ['isclassrominfo' => 'true', 'classes' => $schooldata['classes']];
-        }}return null;
+function getUserService(): UserService
+{
+    return new UserService(new LocalFileUserRepository(), getEnrolmentService());
 }
 
-function getSchoolClassInformation($dataoverride = null) {
-    if (!$dataoverride) {
-        $schooldata = returnData();
-    } else {
-        $schooldata = $dataoverride;
-    }
-    return getlearnersintheSchool($schooldata,true);
-}
-
-function enrolledIntoclass($dataoverride = null) {
-    if (!$dataoverride) {
-        $schooldata = returnData();
-    } else {
-        $schooldata = $dataoverride;
-    }
-    $enrolments = new stdClass();
-    $enrolments->isaclassrepresentation = 'yes';
-    $leaners = getlearnersintheSchool($schooldata, false);
-    $class = getSchoolClassInformation($schooldata);
-    foreach ($class['classes'] as $key => $value) {
-        $courseid = $value['id'];
-        $coursename = $value['name'];
-        $enrolments->$courseid = new stdClass();
-        $enrolments->$courseid->name = $coursename;
-        $enrolments->$courseid->students = [];
-
-        foreach ($leaners['users'] as $key => $value) {
-            foreach ($value['classes'] as $key => $class) {
-                if ($class['id'] == $courseid) {
-                    if (array_key_exists('role', $value) and $value['role'] == 'Teacher' and isset($value['email'])) {
-                        $enrolments->$courseid->teachers = $value['name'] . ': ' . $value['email'];
-                    } else {
-                        if (isset($value['email'])) {
-                            $enrolments->$courseid->students[] = $value['name'] . ': ' . $value['email'];
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return $enrolments;
-}
-
-function printSchoolData() {
-    $info = enrolledIntoclass();
-
-    if (property_exists($info, 'isaclassrepresentation')) {
-        unset($info->isaclassrepresentation);
-    }
-
-    return $info;
+function getEnrolmentService(): EnrolmentService
+{
+    return new EnrolmentService(new LocalFileEnrolmentRepository(), new LocalFileUserRepository(), new LocalFileCourseRepository());
 }
