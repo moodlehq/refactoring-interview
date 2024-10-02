@@ -11,54 +11,95 @@ Options:
 -c, --create            Create a new course when given a name
 -u, --update            Update a course when given a course ID
 -d, --delete            Delete a course when given a course ID
--e, --enroll            Enroll a user into a course when given a user ID and course ID
--ue, --unenroll         Un-enroll a user from a course when given a user ID and course ID
+-e, --enroll            Enroll a user into a course when given a user name and course ID
+-ue, --unenroll         Un-enroll a user from a course when given a user name and course ID
 -h, --help              Print out this help
 
 Example:
 \$ php courses.php -c 'Mathematics'";
 
-$courses = getSchoolClassInformation(null);
-$courses = readcourseinfo($courses);
+$short_options = "a::p:t:c:u:d:h::e:un:n:l:";
+$long_options = ["all:", "participants:", "teachers:", "create:", "update:", "delete:", "enroll:", "unenroll:", "help:", "name:", "location:"];
+$options = getopt($short_options, $long_options);
 
-print_r($courses);
-
-function createCourse() {
-    //return createCourse();
+if (isset($options['h']) || isset($options['help'])) {
+    echo $help;
+    exit(0);
 }
 
-function readcourseinfo($courses) {
-    if (array_key_exists('isclassrominfo', $courses) and ($courses['isclassrominfo'] == 'true' || $courses['isclassrominfo'] == true || $courses['isclassrominfo'] == 1)) {
-        unset($courses['isclassrominfo']);
-        $courses = $courses['classes'];
-    }
-    return $courses;
+if (isset($options['a']) || isset($options['all'])) {
+    echo 'All courses:'.PHP_EOL;
+    $courses = getCourseService()->getAllCourses();
+    $courses = array_map(function ($course) {
+        return $course->formatForPrint();
+    }, $courses);
+    print_r($courses);
+    exit(0);
 }
 
-function updateCourse() {
-    //return updateCourse();
+if (isset($options['p']) || isset($options['participants'])) {
+    $id = isset($options['p']) ? $options['p'] : $options['participants'];
+    echo "Participants of class id $id:".PHP_EOL;
+    $users = getUserService()->getAllStudentsByCourseId($id);
+    $users = array_map(function ($user) {
+        return $user->formatForPrint();
+    }, $users);
+    print_r($users);
+    exit(0);
 }
 
-function deleteCourse() {
-    //return deleteCourse();
+if (isset($options['t']) || isset($options['teachers'])) {
+    $id = isset($options['t']) ? $options['t'] : $options['teachers'];
+    echo "Teachers of class id $id:".PHP_EOL;
+    $users = getUserService()->getAllTeachersByCourseId($id);
+    $users = array_map(function ($user) {
+        return $user->formatForPrint();
+    }, $users);
+    print_r($users);
+    exit(0);
 }
 
-function enrollmentManager($enroll = true) {
-    if ($enroll) {
-        // return enrollUser();
-    } else {
-        // return unenrollUser();
-    }
+if (isset($options['c']) || isset($options['create'])) {
+    $name = isset($options['c']) ? $options['c'] : $options['create'];
+    $location = isset($options['l']) ? $options['l'] : $options['location'] ?? '';
+    $course = getCourseService()->addCourse($name, $location);
+    echo 'Course created:'.PHP_EOL;
+    print_r($course->formatForPrint());
+    exit(0);
 }
 
-function courseCRUD($action = 'R') {
-    if ($action == 'C') {
-        return createCourse();
-    } else if ($action == 'R') {
-        return readcourseinfo(getSchoolClassInformation(null));
-    } else if ($action == 'U') {
-        return updateCourse();
-    } else if ($action == 'D') {
-        return deleteCourse();
-    }
+if (isset($options['u']) || isset($options['update'])) {
+    $id = isset($options['u']) ? $options['u'] : $options['update'];
+    $name = isset($options['n']) ? $options['n'] : $options['name'] ?? '';
+    $location = isset($options['l']) ? $options['l'] : $options['location'] ?? '';
+    $course = getCourseService()->updateCourse($id, $name, $location);
+    echo 'Course updated:'.PHP_EOL;
+    print_r($course->formatForPrint());
+    exit(0);
+}
+
+if (isset($options['d']) || isset($options['delete'])) {
+    $id = isset($options['d']) ? $options['d'] : $options['delete'];
+    $course = getCourseService()->deleteCourse($id);
+    echo 'Course deleted:'.PHP_EOL;
+    print_r($course->formatForPrint());
+    exit(0);
+}
+
+if (isset($options['e']) || isset($options['enroll'])) {
+    $courseId = isset($options['e']) ? $options['e'] : $options['enroll'];
+    $name = isset($options['n']) ? $options['n'] : $options['name'];
+    $user = getEnrolmentService()->enrollUserToCourse($name, $courseId);
+    echo "User $name enrolled to course $courseId:".PHP_EOL;
+    print_r($user->formatForPrint());
+    exit(0);
+}
+
+if (isset($options['ue']) || isset($options['unenroll'])) {
+    $courseId = isset($options['ue']) ? $options['ue'] : $options['unenroll'];
+    $name = isset($options['n']) ? $options['n'] : $options['name'];
+    $user = getEnrolmentService()->unEnrollUserFromCourse($name, $courseId);
+    echo "User $name unenrolled from course $courseId:".PHP_EOL;
+    print_r($user->formatForPrint());
+    exit(0);
 }

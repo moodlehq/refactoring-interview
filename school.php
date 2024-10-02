@@ -11,4 +11,4 @@ Options:
 Example:
 \$ php school.php -a";
 
-print_r(printSchoolData());
+print_r(getSchoolService()->createSchool()->formatForPrint());
