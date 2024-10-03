@@ -35,7 +35,11 @@ class User {
      * @param string $role user's role.
      * @param string $email user's email.
      */
-    public function __construct(string $name, ?string $role, ?string $email) {
+    public function __construct(
+        string $name, 
+        ?string $role, 
+        ?string $email
+    ) {
         $this->name = $name;
         $this->role = $role;
         $this->email = $email;
