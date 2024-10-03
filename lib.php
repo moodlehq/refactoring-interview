@@ -1,5 +1,7 @@
 <?php
 
+require_once 'SchoolDataManager.php';
+
 function returnData() {
     return json_decode(file_get_contents('data.json'), true);
 }
@@ -62,11 +64,11 @@ function enrolledIntoclass($dataoverride = null) {
 }
 
 function printSchoolData() {
-    $info = enrolledIntoclass();
+    
+    $schoolData = returnData();
 
-    if (property_exists($info, 'isaclassrepresentation')) {
-        unset($info->isaclassrepresentation);
-    }
+    $schoolDataManager = new SchoolDataManager($schoolData);
+    $enrollments = $schoolDataManager->getEnrollments();
 
-    return $info;
+    return $enrollments;
 }
