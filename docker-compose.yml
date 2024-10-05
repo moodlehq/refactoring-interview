@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  php:
+    build: .
+    volumes:
+      - .:/app
+    stdin_open: true  # Keep STDIN open
+    tty: true         # Allocate a pseudo-TTY
