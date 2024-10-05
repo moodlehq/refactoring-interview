@@ -2,6 +2,9 @@
 
 require_once 'lib.php';
 
+includeAutoLoad();
+
+
 $help = "Allows you to print out the entire school dataset currently in memory
 
 Options:

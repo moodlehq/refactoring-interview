@@ -1,9 +1,23 @@
 <?php
 
+use MyApp\SchoolDataManager;
+use MyApp\Repositories\SchoolRepository;
+use MyApp\Repositories\UserRepository;
+use MyApp\Repositories\CourseRepository;
+use MyApp\Repositories\EnrollmentRepository;
+use MyApp\Storage\JsonStorage;
+use MyApp\Factories\TeacherFactory;
+use MyApp\Factories\StudentFactory;
+
 function returnData() {
-    return json_decode(file_get_contents('data.json'), true);
+    return json_decode(
+        file_get_contents('data.json'),
+        true
+    );
 }
 
+// get users in the system if switch is set to false and users have classes
+// otherwise get classes information
 function getlearnersintheSchool($dataoverride = null, $switch) {
 
     if (!$dataoverride) {
@@ -18,6 +32,24 @@ function getlearnersintheSchool($dataoverride = null, $switch) {
         }}return null;
 }
 
+function getShoolPupils() {
+    $schoolData = returnData();
+    $schoolDataManager = new SchoolDataManager($schoolData);
+
+    $users = $schoolDataManager->getUsers();
+
+    return $users;
+}
+
+function getSchoolCourses() {
+    $schoolData = returnData();
+    $schoolDataManager = new SchoolDataManager($schoolData);
+
+    $courses = $schoolDataManager->getCourses();
+
+    return $courses;
+}
+
 function getSchoolClassInformation($dataoverride = null) {
     if (!$dataoverride) {
         $schooldata = returnData();
@@ -27,46 +59,129 @@ function getSchoolClassInformation($dataoverride = null) {
     return getlearnersintheSchool($schooldata,true);
 }
 
-function enrolledIntoclass($dataoverride = null) {
-    if (!$dataoverride) {
-        $schooldata = returnData();
-    } else {
-        $schooldata = $dataoverride;
-    }
-    $enrolments = new stdClass();
-    $enrolments->isaclassrepresentation = 'yes';
-    $leaners = getlearnersintheSchool($schooldata, false);
-    $class = getSchoolClassInformation($schooldata);
-    foreach ($class['classes'] as $key => $value) {
-        $courseid = $value['id'];
-        $coursename = $value['name'];
-        $enrolments->$courseid = new stdClass();
-        $enrolments->$courseid->name = $coursename;
-        $enrolments->$courseid->students = [];
+// print all of school's data
+function printSchoolData() {
+    
+    return [
+        'users' => getAllUsers(),
+        'courses' => getAllCourses(),
+        'enrollments' => getAllEnrollments(),
+    ];
 
-        foreach ($leaners['users'] as $key => $value) {
-            foreach ($value['classes'] as $key => $class) {
-                if ($class['id'] == $courseid) {
-                    if (array_key_exists('role', $value) and $value['role'] == 'Teacher' and isset($value['email'])) {
-                        $enrolments->$courseid->teachers = $value['name'] . ': ' . $value['email'];
-                    } else {
-                        if (isset($value['email'])) {
-                            $enrolments->$courseid->students[] = $value['name'] . ': ' . $value['email'];
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return $enrolments;
 }
 
-function printSchoolData() {
-    $info = enrolledIntoclass();
+// get user repository
+// this can be very easily swaped over with another type of repository
+function getUserReposioty() {
+    $usersPath = __DIR__ . '/Data/Json/users.json';
 
-    if (property_exists($info, 'isaclassrepresentation')) {
-        unset($info->isaclassrepresentation);
+    // Create the repositories
+    $storage = new JsonStorage($usersPath); 
+    return new UserRepository($storage);
+}
+
+// get courses repository
+// this can be very easily swaped over with another type of repository
+function getCoursesRepository() {
+    $coursesPath = __DIR__ . '/Data/Json/courses.json';
+
+    // Create the repositories
+    $storage = new JsonStorage($coursesPath); 
+    return new CourseRepository($storage);
+}
+
+// get enrollment repository
+// this can be very easily swaped over with another type of repository
+function getEnrollmentsRepository() {
+    $enrollmentsPath = __DIR__ . '/Data/Json/enrollments.json';
+
+    $storage = new JsonStorage($enrollmentsPath); 
+    return new EnrollmentRepository($storage);
+}
+
+// get all users
+function getAllUsers() {
+
+    $userRepository = getUserReposioty();
+
+    // print the users
+    return ($userRepository->getAll());
+}
+
+function getTeachersInforamtion() {
+    $userRepository = getUserReposioty();
+
+    // print the users
+    $users = ($userRepository->getAll());
+    $teachers = [];
+
+    foreach ($users as $user) {
+        
+        $roles=$user['role']??[];
+        if (in_array('Teacher', $roles)) {
+            $teachers[] = $user;
+        }
     }
 
-    return $info;
+    return $teachers;
+ }
+
+ function getStudentsInforamtion() {
+    $userRepository = getUserReposioty();
+
+    // print the users
+    $users = ($userRepository->getAll());
+    $students = [];
+
+    foreach ($users as $user) {
+        
+        $roles=$user['role']??[];
+        if (in_array('Student', $roles)) {
+            $students[] = $user;
+        }
+    }
+
+    return $students;
+ }
+
+// get all courses
+function getAllCourses() {
+    
+    $courseRepository = getCoursesRepository();
+
+    return ($courseRepository->getAll());
+}
+
+// get all enrollments
+function getAllEnrollments() {
+
+    $enrollmentRepository = getEnrollmentsRepository();
+
+    return ($enrollmentRepository->getAll());
+}
+
+// create a user
+function createUser($type, $userData) {
+    
+    $user=null;
+
+    // create a teacher
+    if ($type == 'Teacher') {
+        $user = TeacherFactory::createTeacher($userData);
+    }else{
+        $user = StudentFactory::createStudent($userData);
+    }
+
+    return getUserReposioty()->save($user);
+}
+
+// autoload
+function includeAutoLoad() {
+    if (file_exists('./vendor/autoload.php')) {
+        // echo "autoload.php exists." . PHP_EOL;
+        require_once './vendor/autoload.php';
+        // echo "Autoload included." . PHP_EOL;
+    } else {
+        echo "autoload.php does not exist." . PHP_EOL;
+    }
 }

@@ -2,6 +2,8 @@
 
 require_once 'lib.php';
 
+includeAutoLoad();
+
 $help = "Allows you to manage users within the school.
 
 Options:
@@ -27,30 +29,20 @@ if (isset($options['h']) || isset($options['help'])) {
 
 if (isset($options['a']) || isset($options['all'])) {
     echo 'All users:'.PHP_EOL;
-    $users = userCRUD('R');
+    $users = getAllUsers();
     print_r($users);
     exit(0);
 }
 
 if (isset($options['l']) || isset($options['learners'])) {
     echo 'Learners:'.PHP_EOL;
-    $users = userCRUD('R');
-    foreach ($users as $key => $user) {
-        if (!array_key_exists('role', $user) || $user['role'] == 'Learner') {
-            echo $user['name'].PHP_EOL;
-        }
-    }
+    print_r(getStudentsInforamtion());
     exit(0);
 }
 
 if (isset($options['t']) || isset($options['teachers'])) {
     echo 'Teachers:'.PHP_EOL;
-    $users = userCRUD('R');
-    foreach ($users as $key => $user) {
-        if (array_key_exists('role', $user) && $user['role'] == 'Teacher') {
-            echo $user['name'].PHP_EOL;
-        }
-    }
+    print_r(getTeachersInforamtion());
     exit(0);
 }
 
@@ -78,44 +70,4 @@ if (isset($options['d']) || isset($options['delete'])) {
     echo 'User deleted:'.PHP_EOL;
     print_r($user);
     exit(0);
-}
-
-function userCRUD($action = 'R') {
-    $allusers = getlearnersintheSchool(null, false);
-
-    if (array_key_exists('isAUserTHING', $allusers)) {
-        $allusers = $allusers['users'];
-    }
-
-    if ($action == 'C') {
-        // TODO: Get opts.
-        $newuser = [
-            'Name' => 'John Doe',
-            'Email' => '',
-            'Role' => 'Learner',
-            'Classes' => []
-        ];
-        $allusers[] = $newuser;
-        return $allusers;
-    } else if ($action == 'R') {
-        $classinfo = getSchoolClassInformation(null);
-        $newuserinfo = [];
-        foreach ($allusers as $key => $user) {
-            $user['courseinfo'] = [];
-            foreach ($user['classes'] as $key => $class) {
-                foreach ($classinfo['classes'] as $key => $value) {
-                    if ($value['id'] == $class['id'] and isset($value['location'])) {
-                        array_push($user['courseinfo'], $value['name']. ': '. $value['location']);
-                    }
-                }
-            }
-            unset($user['classes']);
-            array_push($newuserinfo, $user);
-        }
-        return $newuserinfo;
-    } else if ($action == 'U') {
-        return updateUser();
-    } else if ($action == 'D') {
-        return deleteUser();
-    }
 }
