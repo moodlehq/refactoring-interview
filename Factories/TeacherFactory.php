@@ -21,12 +21,12 @@ class TeacherFactory {
         // create a teacher object
         $teacher = new Teacher(
             $teacherData['name'], 
-            $teacherData['email'], 
-            $teacherData['id']
+            $teacherData['email']??'', 
+            $teacherData['id']??0
         );
 
         // Parse courses the Teacher is assigned to
-        foreach ($teacherData['courses'] as $courseData) {
+        foreach ($teacherData['courses']??[] as $courseData) {
             $course = CourseFactory::createCourse($courseData);
             $teacher->assignCourse($course);
         }
